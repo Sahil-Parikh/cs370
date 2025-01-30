@@ -9,10 +9,10 @@ public class TicTacToe {
     WIN, DRAW, CONTINUE;
   }
 
-  private char[][] board; // Stores the values played on the board
-  private boolean firstPlayer;
-  private boolean gameOver;
-  private Scanner scanner; // Receives user input
+  private char[][] board; // Stores the values played on the board (mutable)
+  private boolean firstPlayer; // (Mutable)
+  private boolean gameOver; // (Mutable)
+  private Scanner scanner; // Receives user input (mutable)
 
   public TicTacToe() {
     board = new char[BOARD_SIZE][BOARD_SIZE];
@@ -27,19 +27,43 @@ public class TicTacToe {
     scanner = new Scanner(System.in);
   }
 
+  // Game logic
   public void play() {
     // TODO: implement play function
+    while (!gameOver) {
+      char currentSymbol = firstPlayer ? 'X' : 'O';
+
+      System.out.println("Player " + currentSymbol + "'s turn.");
+      System.out.print("Player " + currentSymbol + ": Enter row (0, 1, or 2): ");
+      int row = scanner.nextInt();
+      System.out.print("Player " + currentSymbol + ": Enter column (0, 1, or 2): ");
+      int column = scanner.nextInt();
+      System.out.println(row);
+      System.out.println(column);
+      // Check if valid move
+      // Check game status
+    }
   }
 
-  // Called after printing the board
   private void printStatus(int player) {
     // TODO: implement printStatus function
   }
 
-  // Called after each move
   private Status gameStatus() {
-    // TODO: implement gameStatus function
-    return Status.CONTINUE;
+    // TODO: Check for winning combinations: horizontal, vertical, and diagonal
+
+    // If there are empty spaces on the board, we can CONTINUE playing
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        if (board[i][j] == ' ') {
+          firstPlayer = !firstPlayer;
+          return Status.CONTINUE;
+        }
+      }
+    }
+
+    // No winning combinations and no empty spaces... it's a DRAW!
+    return Status.DRAW;
   }
 
   public void printBoard() {
@@ -60,5 +84,7 @@ public class TicTacToe {
 
   public static void main(String[] args) {
     // TODO: implement main function
+    System.out.println("Starting Tic-Tac-Toe program...");
+    new TicTacToe().play();
   }
 }
