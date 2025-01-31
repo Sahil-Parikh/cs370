@@ -66,12 +66,26 @@ public class TicTacToe {
     return Status.DRAW;
   }
 
+  // Implements for loops to draw out the boards and players' symbolds
   public void printBoard() {
-    // TODO: implement printBoard function
+    System.out.println("\n___________________________"); // top border
+    for (int i = 0; i < BOARD_SIZE; i++) { // loop to draw out the rows
+      System.out.println("|       |       |         |");
+      System.out.print("|     "); // start of row
+      for (int j = 0; j < BOARD_SIZE; j++) { // loop to draw out columns
+        printSymbol(j, board[i][j]); // and symbols inputted
+      }
+      System.out.println("      |"); // end of row
+      System.out.println("\n|_________|_________|_________|"); // bottom border
+    }
   }
 
+  // Prints the symbol given by player and assists drawing the board
   private void printSymbol(int column, char value) {
-    // TODO: implement printSymbol function
+    System.out.print(value); // print value given from player
+    if (column < BOARD_SIZE - 1) { // if not last column
+      System.out.print(" | "); // print separator
+    }
   }
 
   private boolean validMove(int row, int column) {
