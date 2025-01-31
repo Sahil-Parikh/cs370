@@ -66,7 +66,6 @@ public class TicTacToe {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
         if (board[i][j] == ' ') {
-          firstPlayer = !firstPlayer;
           return Status.CONTINUE;
         }
       }
