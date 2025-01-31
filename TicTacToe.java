@@ -32,21 +32,31 @@ public class TicTacToe {
     // TODO: implement play function
     while (!gameOver) {
       char currentSymbol = firstPlayer ? 'X' : 'O';
+      int player = currentSymbol == 'X' ? 1 : 2;
 
-      System.out.println("Player " + currentSymbol + "'s turn.");
       System.out.print("Player " + currentSymbol + ": Enter row (0, 1, or 2): ");
       int row = scanner.nextInt();
       System.out.print("Player " + currentSymbol + ": Enter column (0, 1, or 2): ");
       int column = scanner.nextInt();
-      System.out.println(row);
-      System.out.println(column);
-      // Check if valid move
-      // Check game status
+
+      // If we have a valid move...
+      if (validMove(row, column)) {
+        board[row][column] = currentSymbol;
+        printBoard();
+        firstPlayer = !firstPlayer;
+        printStatus(player);
+      } else {
+        System.out.println("Invalid move. Please try again.");
+      }
     }
   }
 
   private void printStatus(int player) {
-    // TODO: implement printStatus function
+    switch (gameStatus()) {
+      case Status.WIN -> System.out.println("Player " + player + " wins.");
+      case Status.DRAW -> System.out.println("Neither player wins; it's a draw.");
+      default -> System.out.println("Player " + player + "'s turn.");
+    }
   }
 
   private Status gameStatus() {
@@ -66,17 +76,17 @@ public class TicTacToe {
     return Status.DRAW;
   }
 
-  // Implements for loops to draw out the boards and players' symbolds
+  // Implements for loops to draw out the boards and players' symbols
   public void printBoard() {
-    System.out.println("\n___________________________"); // top border
+    System.out.println("\n _______________________ "); // top border
     for (int i = 0; i < BOARD_SIZE; i++) { // loop to draw out the rows
-      System.out.println("|       |       |         |");
-      System.out.print("|     "); // start of row
+      System.out.println("|       |       |       |");
+      System.out.print("|   "); // start of row
       for (int j = 0; j < BOARD_SIZE; j++) { // loop to draw out columns
         printSymbol(j, board[i][j]); // and symbols inputted
       }
-      System.out.println("      |"); // end of row
-      System.out.println("\n|_________|_________|_________|"); // bottom border
+      System.out.println("   |"); // end of row
+      System.out.println("\n|_______|_______|_______|"); // bottom border
     }
   }
 
