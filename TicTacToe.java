@@ -29,10 +29,9 @@ public class TicTacToe {
 
   // Game logic
   public void play() {
-    // TODO: implement play function
+    printBoard();
     while (!gameOver) {
       char currentSymbol = firstPlayer ? 'X' : 'O';
-      int player = currentSymbol == 'X' ? 1 : 2;
 
       System.out.print("Player " + currentSymbol + ": Enter row (0, 1, or 2): ");
       int row = scanner.nextInt();
@@ -41,26 +40,50 @@ public class TicTacToe {
 
       // If we have a valid move...
       if (validMove(row, column)) {
-        board[row][column] = currentSymbol;
-        printBoard();
-        firstPlayer = !firstPlayer;
-        printStatus(player);
+        board[row][column] = currentSymbol; // Place symbol in space specified
+        printBoard(); // Print the board
+        switch (gameStatus()) {
+          case CONTINUE -> firstPlayer = !firstPlayer;
+          default -> gameOver = true;
+        }
+        System.out.println("Player " + currentSymbol + " played (" + row + ", " + column + ").");
+        printStatus();
       } else {
         System.out.println("Invalid move. Please try again.");
       }
     }
   }
 
-  private void printStatus(int player) {
+  // Prints the status of the game
+  // e.g., "Player X wins." or "Player O's turn."
+  private void printStatus() {
+    char curSymbol = firstPlayer ? 'X' : 'O';
     switch (gameStatus()) {
-      case Status.WIN -> System.out.println("Player " + player + " wins.");
-      case Status.DRAW -> System.out.println("Neither player wins; it's a draw.");
-      default -> System.out.println("Player " + player + "'s turn.");
+      case WIN -> System.out.println("Player " + curSymbol + " wins.");
+      case DRAW -> System.out.println("Neither player wins; it's a draw.");
+      default -> System.out.println("Player " + curSymbol + "'s turn.");
     }
   }
 
+  // Returns the status of the game
   private Status gameStatus() {
-    // TODO: Check for winning combinations: horizontal, vertical, and diagonal
+    // Check for horizontal and vertical winning combinations
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+        return Status.WIN;
+      }
+      if (board[0][i] != ' ' && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
+        return Status.WIN;
+      }
+    }
+
+    // Check for diagonal winning combinations
+    if (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+      return Status.WIN;
+    }
+    if (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+      return Status.WIN;
+    }
 
     // If there are empty spaces on the board, we can CONTINUE playing
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -84,7 +107,7 @@ public class TicTacToe {
       for (int j = 0; j < BOARD_SIZE; j++) { // loop to draw out columns
         printSymbol(j, board[i][j]); // and symbols inputted
       }
-      System.out.println("   |"); // end of row
+      System.out.print("   |"); // end of row
       System.out.println("\n|_______|_______|_______|"); // bottom border
     }
   }
@@ -93,7 +116,7 @@ public class TicTacToe {
   private void printSymbol(int column, char value) {
     System.out.print(value); // print value given from player
     if (column < BOARD_SIZE - 1) { // if not last column
-      System.out.print(" | "); // print separator
+      System.out.print("   |   "); // print separator
     }
   }
 
@@ -106,7 +129,6 @@ public class TicTacToe {
   }
 
   public static void main(String[] args) {
-    // TODO: implement main function
     System.out.println("Starting Tic-Tac-Toe program...");
     new TicTacToe().play();
   }
