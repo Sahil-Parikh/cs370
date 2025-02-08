@@ -1,2 +1,3 @@
-# cs370tictactoe
-Lab2 assignment for CS370
+# cs370
+
+Lab assignments for CS 370 at CSUSM
