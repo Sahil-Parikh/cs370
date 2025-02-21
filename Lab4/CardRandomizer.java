@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.*;
 import javax.swing.*;
 
@@ -18,9 +19,13 @@ public class CardRandomizer {
         cardIcons = new ArrayList<>();
         String[] suits = { "hearts", "diamonds", "clubs", "spades" };
         String[] ranks = { "ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king" };
+
+        // System.out.println(new File("Lab4", "cards").getParent());
+
         for (String suit : suits) {
             for (String rank : ranks) {
-                String filePath = "cards/" + rank + "_of_" + suit + ".png";
+                String cardsDir = new File("Lab4", "cards").getPath();
+                String filePath = cardsDir + File.separator + rank + "_of_" + suit + ".png";
                 cardIcons.add(new ImageIcon(filePath));
             }
         }
